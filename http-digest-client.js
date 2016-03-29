@@ -88,22 +88,22 @@ var HTTPDigest = function () {
       var headers = options.headers || {};
       headers.Authorization = this._compileParams(authParams);
       options.headers = headers;
-
-      var req = http.request(options, function (res) {
-        callback(res);
-      });
-      if (options.hasOwnProperty('timeout')) {
-        req.setTimeout(options.timeout);
-      }
-      req.on('error', function forwardError (err) {
-        clientRequest.emit('error', err);
-      });
-      req.on('timeout', function forwardTimeout () {
-        clientRequest.emit('timeout');
-        req.abort();
-      });
-      req.end();
     }
+
+    var req = http.request(options, function (res) {
+      callback(res);
+    });
+    if (options.hasOwnProperty('timeout')) {
+      req.setTimeout(options.timeout);
+    }
+    req.on('error', function forwardError (err) {
+      clientRequest.emit('error', err);
+    });
+    req.on('timeout', function forwardTimeout () {
+      clientRequest.emit('timeout');
+      req.abort();
+    });
+    req.end();
   };
 
   //
